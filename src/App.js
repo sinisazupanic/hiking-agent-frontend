@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const API_URL = "https://hiking-agent-node.azurewebsites.net/api/analyze";
 
@@ -120,8 +121,8 @@ function App() {
           </label>
           <div style={{ display: 'flex', gap: '10px' }}>
             {[
-              { val: 'pocetnik',  label: '🌱 Početnik' },
-              { val: 'srednji',   label: '🥾 Srednji' },
+              { val: 'pocetnik', label: '🌱 Početnik' },
+              { val: 'srednji',  label: '🥾 Srednji'  },
               { val: 'napredno', label: '🏆 Napredno' },
             ].map(opt => (
               <button key={opt.val} onClick={() => setLevel(opt.val)} style={{
@@ -177,13 +178,22 @@ function App() {
           <h2 style={{ color: '#1b4332', marginTop: 0, fontSize: '1.3rem' }}>
             📋 Plan za tvoj izlet
           </h2>
-          <pre style={{
-            whiteSpace: 'pre-wrap', fontFamily: 'Georgia, serif',
-            lineHeight: '1.8', color: '#1a2a1a', fontSize: '0.95rem',
-            margin: 0,
+
+          {/* ✅ Markdown renderer umjesto <pre> */}
+          <ReactMarkdown components={{
+            h1: ({children}) => <h1 style={{ color: '#1b4332', fontSize: '1.3rem', marginTop: '24px', marginBottom: '8px', borderBottom: '2px solid #c8e0cc', paddingBottom: '6px' }}>{children}</h1>,
+            h2: ({children}) => <h2 style={{ color: '#1b4332', fontSize: '1.2rem', marginTop: '24px', marginBottom: '8px', borderBottom: '2px solid #c8e0cc', paddingBottom: '6px' }}>{children}</h2>,
+            h3: ({children}) => <h3 style={{ color: '#2d6a4f', fontSize: '1.05rem', marginTop: '20px', marginBottom: '6px' }}>{children}</h3>,
+            h4: ({children}) => <h4 style={{ color: '#2d6a4f', fontSize: '0.95rem', marginTop: '14px', marginBottom: '4px' }}>{children}</h4>,
+            li: ({children}) => <li style={{ marginBottom: '6px', lineHeight: '1.7', color: '#1a2a1a', fontSize: '0.93rem' }}>{children}</li>,
+            ul: ({children}) => <ul style={{ paddingLeft: '20px', margin: '6px 0' }}>{children}</ul>,
+            ol: ({children}) => <ol style={{ paddingLeft: '20px', margin: '6px 0' }}>{children}</ol>,
+            strong: ({children}) => <strong style={{ color: '#1b4332', fontWeight: '700' }}>{children}</strong>,
+            p: ({children}) => <p style={{ lineHeight: '1.7', color: '#1a2a1a', margin: '8px 0', fontSize: '0.93rem' }}>{children}</p>,
+            hr: () => <hr style={{ border: 'none', borderTop: '1px solid #c8e0cc', margin: '16px 0' }} />,
           }}>
             {response}
-          </pre>
+          </ReactMarkdown>
         </div>
       )}
 
